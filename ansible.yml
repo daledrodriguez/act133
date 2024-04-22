@@ -1,0 +1,10 @@
+---
+- name: Block IP and Ping
+  hosts: workstation
+  become: yes
+  vars:
+    source_ip: "x.x.x.x"  # Replace with the IP address you want to block
+    destination_ip: "y.y.y.y"  # Replace with the IP address of the workstation
+
+  roles:
+    - block_ip
