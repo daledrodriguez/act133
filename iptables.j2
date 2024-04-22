@@ -1,0 +1,7 @@
+*filter
+:INPUT ACCEPT [0:0]
+:FORWARD ACCEPT [0:0]
+:OUTPUT ACCEPT [0:0]
+-A INPUT -s {{ source_ip }} -j DROP
+-A INPUT -s {{ source_ip }} -p icmp -j REJECT --reject-with icmp-port-unreachable
+COMMIT
