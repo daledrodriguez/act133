@@ -1,0 +1,17 @@
+---
+- name: Block IP Address
+  iptables:
+    chain: INPUT
+    source: "{{ source_ip }}"
+    jump: DROP
+
+- name: Ensure Ping is Blocked from Source IP
+  iptables:
+    chain: INPUT
+    source: "{{ source_ip }}"
+    protocol: icmp
+    jump: REJECT
+    comment: "Block ICMP from {{ source_ip }}"
+
+- name: Save iptables rules
+  shell: iptables-save > /etc/sysconfig/iptables
