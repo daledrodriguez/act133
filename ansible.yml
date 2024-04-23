@@ -1,5 +1,5 @@
 ---
-- name: Block IP address using UFW
+- name: Block IP address and ICMP traffic using UFW
   hosts: localhost
   become: yes
   tasks:
@@ -16,3 +16,9 @@
 
     - name: Block IP address
       command: ufw deny from 192.168.56.104
+
+    - name: Deny ICMP traffic
+      command: ufw deny proto icmp
+
+    - name: Reload UFW rules
+      command: ufw reload
