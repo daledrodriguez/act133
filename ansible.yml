@@ -1,10 +1,18 @@
 ---
-- name: Block IP and Ping
-  hosts: workstation
+- name: Block IP address using UFW
+  hosts: localhost
   become: yes
-  vars:
-    source_ip: "x.x.x.x"  # Replace with the IP address you want to block
-    destination_ip: "y.y.y.y"  # Replace with the IP address of the workstation
+  tasks:
+    - name: Check if UFW is installed
+      command: ufw --version
+      ignore_errors: yes
+      register: ufw_installed
 
-  roles:
-    - block_ip
+    - name: Install UFW if not installed
+      apt:
+        name: ufw
+        state: present
+      when: ufw_installed.rc != 0
+
+    - name: Block IP address
+      command: ufw deny from 192.168.56.104
